@@ -1,0 +1,73 @@
+                             +--------------+
+                             | ShellEffects |
+                             +--------------+
+A little library for combining various pretty effects in a shell, specifically 
+designed to be run on top of another command.
+
+To preview, 'make test' to build the test program, 'make run' to run it.
+
+-------------------------------------------------------------------------------
+                                +TO USE+
+-------------------------------------------------------------------------------
+If you want to use it:  #include shellEffects.h, and read the comments
+in that file for an explanation. A simple example to get you started:
+
+#include "shellEffects.h"
+int main(void) {
+	ShellEffect *effect = effectFireworks();
+	runShellEffect( effect );
+	return 0;
+}
+
+to compile, first find the file shellEffects.a. Then run the command: 
+gcc <myProgName> -lncurses shellEffects.a
+
+-------------------------------------------------------------------------------
+                     +TO CREATE ADDITIONAL EFFECTS+
+-------------------------------------------------------------------------------
+The official documentation for creating is found in shellEffectsInternal.h.
+
+Briefly, a typical effect has three sections: overridden functions, data 
+structure, and internal functions. I count the constructor as an overridden 
+function, although it technically isn't.
+
+First create the constructor. It is just a public function, and you can name it
+anything you like, but declare it in shellEffects.h. The only requirement is
+that it call allocEffect(), and return a ShellEffect().
+
+You may want to override many of the functions found in shellEffectsInternal.h,
+but the only one you really need to override is drawScreen(). With that, you'll
+be able to draw stuff. Have drawScreen() return 30 to get called every 30 
+milliseconds, and return -1 when you are done.
+
+Once your effect gets a bit more complicated, you'll want to store state. The 
+natural way to do that is create a private struct in your effect that holds
+all the state. You can allocate it using malloc() in the constructor. To avoid
+memory leaks, at this point you should override EffectFree(). Do it right now,
+first, before you write the constructor, and it will help avoid memory leaks. 
+
+Pass your newly allocated state object as the final parameter of allocEffect(),
+and in drawScreen() you can get to it with the following line of code:
+
+struct MyState *state = (struct Mystate*)effect->data;
+
+About the simplest example to get you started, this draws a yellow X in the
+middle of the screen, and redraws it every 30 milliseconds. It's not necessary
+to redraw, things stay unless you change them, but this is simple:
+
+#include "shellEffectsInternal.h"
+
+static int drawScreen(ShellEffect *ef) {
+	srSet(ef->win, ef->x/2, ef->y/2, 'X' | YELLOW_BLACK);
+	return 30; //tells the engine to call this again in 30 milliseconds
+	           //return -1 instead to quit
+}
+
+//the constructor
+ShellEffect *effectMiddleX() {
+	return allocEffect(drawScreen, NULL, NULL, NULL, NULL);
+}
+
+Look in shellRenderer.h for more drawing tips.
+~AT~
+

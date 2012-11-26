@@ -1,0 +1,12 @@
+Usable under terms of the GPL 3 or later.
+
+To see an example, change to the directory with source and type
+   make test
+	make run
+
+It will show you some fireworks and such.
+Tested on OSX, should work on any Unix.
+
+
+For more info, check out the README in the source directory.
+
