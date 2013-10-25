@@ -31,8 +31,8 @@ char *args[] = {"/bin/cat","testFile", NULL};
 
 int main(void) {
 	ShellEffect *effect;
-	//effect = effectRunCommand("/bin/cat", args);
-	//runShellEffectAsync( effect, NULL, NULL );
+	effect = effectRunCommand("/bin/cat", args);
+	runShellEffectAsync( effect, NULL, NULL );
 	//effect = effectLeftRight( 200 );
 	//runShellEffectAsync( effect, NULL, NULL );
 	effect = effectFireworks();
