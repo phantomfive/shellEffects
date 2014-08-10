@@ -22,7 +22,7 @@
 
 CC=gcc
 CFLAGS=-Wall -Werror -std=c99  -ggdb
-LDFLAGS=
+LDFLAGS=-lm
 
 CSRC := $(wildcard *.c)
 OBJS = $(patsubst %.c,$(OBJDIR)/%.o, $(CSRC))

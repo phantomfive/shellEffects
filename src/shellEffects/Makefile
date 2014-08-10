@@ -6,7 +6,7 @@ include ../../common.mk
 
 test: 
 	make
-	gcc testProg.c -o testProg -ggdb -lncurses ../../out/staticLibs/shellEffects.a -O3 -D MAKE_TEST_PROGRAM
+	gcc testProg.c -o testProg -ggdb ../../out/staticLibs/shellEffects.a -O3 -D MAKE_TEST_PROGRAM -lm -lpthread -lncurses
 
 run:
 	./testProg

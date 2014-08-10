@@ -1,8 +1,11 @@
+#define  _POSIX_SOURCE 2
 #include <signal.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <sys/socket.h>
+#include <sys/select.h>
+#include <sys/types.h>
 #include "shellEffectsInternal.h"
 
 typedef struct sei {
